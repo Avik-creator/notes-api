@@ -1,11 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { RegisterDto } from './dto/register.dto';
 import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class AuthService {
   constructor(private readonly userService: UserService) {}
-  register(registerDto: RegisterDto) {
+  async register(registerDto: RegisterDto) {
     // Registration logic here
     /**
      * 1. Checking if user email Exists
@@ -15,7 +15,10 @@ export class AuthService {
      * 5. Return the Token
      */
 
-    const user = this.userService.getUserByEmail(registerDto.email);
+    const user = await this.userService.getUserByEmail(registerDto.email);
+    if (user) {
+      throw new ConflictException('User Already Exists');
+    }
     return user;
   }
 }
