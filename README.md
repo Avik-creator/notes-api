@@ -1,99 +1,337 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Notes API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A secure and feature-rich RESTful API for managing notes, built with NestJS, Prisma, and SQLite. This API includes JWT authentication, user management, and full CRUD operations for notes.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 🚀 Features
 
-## Description
+- **User Authentication**: Secure registration and login with JWT tokens
+- **Protected Routes**: JWT-based authentication guard for secure endpoints
+- **CRUD Operations**: Complete Create, Read, Update, Delete operations for notes
+- **User-Scoped Notes**: Each user can only access their own notes
+- **Pagination Support**: Query parameters for paginating note lists
+- **Input Validation**: Class-validator for robust data validation
+- **API Documentation**: Interactive Swagger/OpenAPI documentation
+- **Database ORM**: Prisma for type-safe database operations
+- **TypeScript**: Fully typed codebase for better developer experience
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## 📋 Prerequisites
 
-## Project setup
+Before running this project, make sure you have the following installed:
+
+- [Node.js](https://nodejs.org/) (v18 or higher)
+- [pnpm](https://pnpm.io/) (recommended) or npm
+- [SQLite](https://www.sqlite.org/) (included by default)
+
+## 🛠️ Installation
+
+1. **Clone the repository**
+
+   ```bash
+   git clone <repository-url>
+   cd notes-api
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   pnpm install
+   # or
+   npm install
+   ```
+
+3. **Set up environment variables**
+
+   Create a `.env` file in the root directory:
+
+   ```env
+   DATABASE_URL="file:./dev.db"
+   JWT_SECRET="your-super-secret-jwt-key"
+   PORT=3000
+   ```
+
+4. **Run database migrations**
+
+   ```bash
+   pnpm prisma migrate dev
+   # or
+   npx prisma migrate dev
+   ```
+
+5. **Generate Prisma Client**
+   ```bash
+   pnpm prisma generate
+   # or
+   npx prisma generate
+   ```
+
+## 🚀 Running the Application
+
+### Development Mode
 
 ```bash
-$ pnpm install
+pnpm start:dev
+# or
+npm run start:dev
 ```
 
-## Compile and run the project
+### Production Mode
 
 ```bash
-# development
-$ pnpm run start
-
-# watch mode
-$ pnpm run start:dev
-
-# production mode
-$ pnpm run start:prod
+pnpm build
+pnpm start:prod
+# or
+npm run build
+npm run start:prod
 ```
 
-## Run tests
+### Debug Mode
 
 ```bash
-# unit tests
-$ pnpm run test
-
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
+pnpm start:debug
+# or
+npm run start:debug
 ```
 
-## Deployment
+The API will be available at `http://localhost:3000`
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+## 📚 API Documentation
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Once the application is running, you can access the interactive Swagger documentation at:
+
+```
+http://localhost:3000/api
+```
+
+## 🔌 API Endpoints
+
+### Authentication
+
+#### Register a New User
+
+```http
+POST /api/register
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "securePassword123"
+}
+```
+
+#### Login
+
+```http
+POST /api/login
+Content-Type: application/json
+
+{
+  "email": "john@example.com",
+  "password": "securePassword123"
+}
+```
+
+**Response:**
+
+```json
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+```
+
+### Notes (Protected Routes)
+
+All note endpoints require authentication. Include the JWT token in the Authorization header:
+
+```
+Authorization: Bearer <your-jwt-token>
+```
+
+#### Create a Note
+
+```http
+POST /api/note
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "title": "My First Note",
+  "body": "This is the content of my note"
+}
+```
+
+#### Get All Notes (with pagination)
+
+```http
+GET /api/note?take=10&skip=0
+Authorization: Bearer <token>
+```
+
+#### Get a Specific Note
+
+```http
+GET /api/note/:id
+Authorization: Bearer <token>
+```
+
+#### Update a Note
+
+```http
+PATCH /api/note/:id
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "title": "Updated Title",
+  "body": "Updated content"
+}
+```
+
+#### Delete a Note
+
+```http
+DELETE /api/note/:id
+Authorization: Bearer <token>
+```
+
+## 🗄️ Database Schema
+
+### User Model
+
+```prisma
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Note      Note[]
+}
+```
+
+### Note Model
+
+```prisma
+model Note {
+  id        Int      @id @default(autoincrement())
+  title     String
+  body      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+}
+```
+
+## 🧪 Testing
+
+### Run Unit Tests
 
 ```bash
-$ pnpm install -g mau
-$ mau deploy
+pnpm test
+# or
+npm test
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### Run Tests in Watch Mode
 
-## Resources
+```bash
+pnpm test:watch
+# or
+npm run test:watch
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+### Run End-to-End Tests
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+```bash
+pnpm test:e2e
+# or
+npm run test:e2e
+```
 
-## Support
+### Generate Test Coverage
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```bash
+pnpm test:cov
+# or
+npm run test:cov
+```
 
-## Stay in touch
+## 🏗️ Project Structure
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```
+notes-api/
+├── prisma/
+│   ├── schema.prisma          # Database schema
+│   └── migrations/            # Database migrations
+├── src/
+│   ├── auth/                  # Authentication module
+│   │   ├── auth.controller.ts
+│   │   ├── auth.service.ts
+│   │   ├── auth.guard.ts
+│   │   └── dto/              # Auth DTOs
+│   ├── note/                  # Notes module
+│   │   ├── note.controller.ts
+│   │   ├── note.service.ts
+│   │   ├── dto/              # Note DTOs
+│   │   └── entities/
+│   ├── user/                  # User module
+│   │   └── user.service.ts
+│   ├── app.module.ts          # Root module
+│   ├── main.ts                # Application entry point
+│   └── prisma.service.ts      # Prisma service
+├── test/                      # E2E tests
+├── package.json
+└── README.md
+```
 
-## License
+## 🔧 Available Scripts
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+| Script             | Description                               |
+| ------------------ | ----------------------------------------- |
+| `pnpm start`       | Start the application                     |
+| `pnpm start:dev`   | Start in development mode with hot-reload |
+| `pnpm start:debug` | Start in debug mode                       |
+| `pnpm start:prod`  | Start in production mode                  |
+| `pnpm build`       | Build the application                     |
+| `pnpm test`        | Run unit tests                            |
+| `pnpm test:e2e`    | Run end-to-end tests                      |
+| `pnpm test:cov`    | Generate test coverage report             |
+| `pnpm lint`        | Lint and fix code                         |
+| `pnpm format`      | Format code with Prettier                 |
+
+## 🔐 Security Features
+
+- **Password Hashing**: User passwords are hashed using bcrypt
+- **JWT Authentication**: Secure token-based authentication
+- **Auth Guards**: Protected routes require valid JWT tokens
+- **Input Validation**: All inputs are validated using class-validator
+- **User Isolation**: Users can only access their own notes
+
+## 🛠️ Technologies Used
+
+- **[NestJS](https://nestjs.com/)** - Progressive Node.js framework
+- **[Prisma](https://www.prisma.io/)** - Next-generation ORM
+- **[SQLite](https://www.sqlite.org/)** - Lightweight database
+- **[JWT](https://jwt.io/)** - JSON Web Tokens for authentication
+- **[Bcrypt](https://www.npmjs.com/package/bcrypt)** - Password hashing
+- **[Swagger/OpenAPI](https://swagger.io/)** - API documentation
+- **[TypeScript](https://www.typescriptlang.org/)** - Type-safe JavaScript
+- **[Class Validator](https://github.com/typestack/class-validator)** - Validation decorators
+
+## 👤 Author
+
+**Avik Mukherjee**
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome!
+
+## ⭐ Show Your Support
+
+Give a ⭐️ if this project helped you!
+
+---
+
+**Happy Coding! 🎉**
